@@ -1,7 +1,10 @@
-import todoRoute from "./todo.api";
+// import todoRoute from "../src/routes/todo.api";
 import { PORT } from "./configs";
 import Express from "express";
-import userRoute from "./user.api";
+// import userRoute from "../src/routes/user.api";
+import yearRouter from "../src/routes/year.routes";
+import subjectRouter from "../src/routes/subject.routes";
+import classRoutes from "../src/routes/class.routes";
 
 const server = Express();
 
@@ -10,8 +13,11 @@ server.use(Express.text());
 server.use(Express.urlencoded());
 
 
-server.use("/todo", todoRoute)
-server.use("/user", userRoute)
+// server.use("/todo", todoRoute)
+// server.use("/user", userRoute)
+server.use("/year", yearRouter)
+server.use("/subject", subjectRouter)
+server.use("/class", classRoutes)
 
 const port = PORT || 3000;
 server.listen(port, () => {

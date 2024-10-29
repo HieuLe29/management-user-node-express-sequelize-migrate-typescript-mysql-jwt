@@ -1,69 +1,46 @@
-import { Model, DataTypes } from 'sequelize';
-import connection from '../connection';
-import Todo from './todos';
+import { Model, DataTypes, Association } from "sequelize";
+import connection from "../connection";
+import Class from "./class";
 
 interface UserAttributes {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-
-  updatedAt?: Date;
-  deletedAt?: Date;
-  createdAt?: Date;
+  id?:number,
+  username:string;
+  password:string;
+  role:string;
 }
 
-class User extends Model<UserAttributes> implements UserAttributes {
+class User extends Model {
   public id!: number;
-  public firstName!: string;
-  public lastName!: string;
-  public email!: string;
+  public username!: string; 
   public password!: string;
+  public role!: string;
+ 
+  
 
-  public readonly updatedAt!: Date;
-  public readonly createdAt!: Date;
-}
-
-User.init(
-  {
-    id: {
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
-      type: DataTypes.NUMBER,
-    },
-    firstName: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    lastName: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    },
-    email: {
-      allowNull: false,
-      unique: true,
-      type: DataTypes.STRING,
-    },
-    password: {
-      allowNull: false,
-      type: DataTypes.STRING,
-    }, 
-    
-    createdAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-    updatedAt: {
-      allowNull: false,
-      type: DataTypes.DATE,
-    },
-  },
-  {
-    sequelize: connection,
-    modelName: 'User',
+  public toJSON(): User | any {
+    const values = { ...this.get(), createdAt: undefined, updatedAt: undefined };
+    return values;
   }
-);
+
+}
+//Yêu cầu validate cho tên người dùng, password và role chỉ giới hạn 3 tài khoản sinh viên, giảng viên, admin
+User.init({
+  username: {
+    allowNull: false,
+    type: DataTypes.STRING,
+  },
+  password: {
+    allowNull: false,
+    type:DataTypes.STRING,
+  },
+  role: {
+    type: DataTypes.ENUM,
+    values: ['student', 'teacher', 'admin', 'customer'],
+    defaultValue: 'customer',
+  }
+}, {
+  sequelize: connection,
+  modelName: 'User',
+});
 
 export default User;
