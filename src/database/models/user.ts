@@ -1,17 +1,16 @@
-import { Model, DataTypes, Association } from "sequelize";
+import { Model, DataTypes } from "sequelize";
 import connection from "../connection";
-import Class from "./class";
 
-interface UserAttributes {
+export interface UserAttributes {
   id?:number,
-  username:string;
+  email:string;
   password:string;
   role:string;
 }
 
-class User extends Model {
+class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number;
-  public username!: string; 
+  public email!: string; 
   public password!: string;
   public role!: string;
  
@@ -25,9 +24,10 @@ class User extends Model {
 }
 //Yêu cầu validate cho tên người dùng, password và role chỉ giới hạn 3 tài khoản sinh viên, giảng viên, admin
 User.init({
-  username: {
+  email: {
     allowNull: false,
     type: DataTypes.STRING,
+    unique: true
   },
   password: {
     allowNull: false,
@@ -35,12 +35,12 @@ User.init({
   },
   role: {
     type: DataTypes.ENUM,
-    values: ['student', 'teacher', 'admin', 'customer'],
-    defaultValue: 'customer',
+    values: ['student', 'teacher', 'admin'],
   }
 }, {
   sequelize: connection,
   modelName: 'User',
 });
+
 
 export default User;

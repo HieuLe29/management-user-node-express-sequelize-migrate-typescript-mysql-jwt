@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { createClass, deleteClass, findByClassName, setNameClass, getAllClass } from "../controllers/class.controller";
- 
+
+
 const classRoutes = Router();
 
 classRoutes.post("/create", createClass);

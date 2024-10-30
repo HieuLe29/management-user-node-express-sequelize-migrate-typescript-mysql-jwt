@@ -1,5 +1,6 @@
 import { Model, DataTypes } from "sequelize";
 import connection from "../connection";
+import Score from "./score";
 
 interface SubjectAttributes {
   id?: number;
@@ -38,5 +39,6 @@ Subject.init(
     modelName: "Subject",
   }
 );
+
 
 export default Subject;

@@ -5,29 +5,32 @@ import { DataTypes, QueryInterface } from "sequelize";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('Enrollments', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
-        type: Sequelize.STRING,
+      studentId: {
         allowNull: false,
-        unique: true,
-        validate: {
-          isEmail: true
-        }
+        type: Sequelize.INTEGER,
+        references: { model: 'students', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
       },
-      password: {
-        type: Sequelize.STRING,
+      classId: {
         allowNull: false,
+        type: Sequelize.INTEGER,
+        references: { model: 'classes', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
       },
-      role: {
-        type: Sequelize.ENUM,
-        allowNull: false,
-        values: ['student', 'teacher', 'admin'],
+      yearId: {
+        type: Sequelize.INTEGER,
+        references: { model: 'years', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT',
       },
       createdAt: {
         allowNull: false,
@@ -40,6 +43,6 @@ module.exports = {
     });
   },
   async down(queryInterface: QueryInterface, Sequelize: any) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('Enrollments');
   }
 };

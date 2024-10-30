@@ -25,7 +25,9 @@ Score.init(
      references: {
        model: "Students",
        key: "id"
-     }
+     },
+     onUpdate: 'CASCADE',
+     onDelete: 'RESTRICT' // Không cho phép xóa nếu có ràng buộc
    },
    subjectId: {
      allowNull: false,
@@ -33,7 +35,9 @@ Score.init(
      references: {
        model: "Subjects",
        key: "id"
-     }
+     },
+     onUpdate: 'CASCADE',
+     onDelete: 'RESTRICT' // Không cho phép xóa nếu có ràng buộc
    },
    score: {
      allowNull: false,
@@ -48,10 +52,10 @@ Score.init(
 );
 
 
-Student.hasMany(Score, {as: 'scores', foreignKey: 'studentId'});
 Score.belongsTo(Student, {as: 'student', foreignKey: 'studentId'});
+Student.hasMany(Score, {as: 'scores', foreignKey: 'studentId'});
 
-Subject.hasMany(Score, {as: 'score', foreignKey: 'subjectId'});
 Score.belongsTo(Subject, {as: 'subject', foreignKey: 'subjectId'});
+Subject.hasMany(Score, {as: 'score', foreignKey: 'subjectId'});
 
 export default Score;

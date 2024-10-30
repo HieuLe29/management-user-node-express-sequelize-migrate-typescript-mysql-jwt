@@ -1,5 +1,6 @@
 import connection from "../connection";
 import { DataTypes, Model } from "sequelize";
+import Enrollment from "./enrollment";
 
 interface YearAttributes { 
   id?: number;

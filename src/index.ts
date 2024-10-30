@@ -5,6 +5,7 @@ import Express from "express";
 import yearRouter from "../src/routes/year.routes";
 import subjectRouter from "../src/routes/subject.routes";
 import classRoutes from "../src/routes/class.routes";
+import userRoutes from "../src/routes/user.routes";
 
 const server = Express();
 
@@ -18,6 +19,7 @@ server.use(Express.urlencoded());
 server.use("/year", yearRouter)
 server.use("/subject", subjectRouter)
 server.use("/class", classRoutes)
+server.use("/api", userRoutes)
 
 const port = PORT || 3000;
 server.listen(port, () => {

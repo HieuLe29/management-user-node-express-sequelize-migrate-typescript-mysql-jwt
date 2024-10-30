@@ -13,18 +13,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       studentId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Students',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT' // Không cho phép xóa nếu có ràng buộc
       },
       subjectId: {
+        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Subjects',
           key: 'id'
-        }
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'RESTRICT' // Không cho phép xóa nếu có ràng buộc
       },
       score: {
         allowNull: false,
@@ -38,7 +44,8 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+    
     });
   },
   async down(queryInterface: QueryInterface, Sequelize: any) {

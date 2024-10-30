@@ -1,5 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import connection from "../connection";
+import Enrollment from "./enrollment";
+import Student from "./students";
 
 interface ClassAttributes {
   id?: number;
@@ -32,5 +34,6 @@ Class.init(
     modelName: "Class",
   }
 );
+
 
 export default Class;

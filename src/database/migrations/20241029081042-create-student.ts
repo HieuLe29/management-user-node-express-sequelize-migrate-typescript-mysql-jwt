@@ -12,15 +12,14 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      fullname: {
+      name: {
         allowNull: false,
         type: Sequelize.STRING
-      },
-      dateOfBirth: {
+      },      
+      age: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.INTEGER,
       },
-      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
