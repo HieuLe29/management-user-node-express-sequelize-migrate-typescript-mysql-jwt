@@ -6,6 +6,14 @@ export interface RequestWithUser extends Request {
           user?: UserAttributes | any;
 }
 
+type Role = 'admin' | 'teacher' | 'student';
+
+const rolesPermissions: Record<Role, string[]> = {
+  admin: ['read', 'write', 'update', 'delete'],
+  teacher: ['read', 'write', 'update'],
+  student: ['read'],
+};
+
 export const authenticate = (req: RequestWithUser, res: Response, next: NextFunction): void => {
   const authorizationClient = req.headers.authorization;
   const token = authorizationClient && authorizationClient.split(' ')[1];
@@ -24,3 +32,16 @@ export const authenticate = (req: RequestWithUser, res: Response, next: NextFunc
     res.status(400).json({ message: 'Invalid token' });
   }
 }
+
+export const authorize = (action: string) => (req: RequestWithUser, res: Response, next: NextFunction): void => {
+  const userRole = req.user.role as Role; // Ép kiểu userRole thành Role
+  const permissions = rolesPermissions[userRole];
+
+  if (!permissions || !permissions.includes(action)) {
+    res.status(403).json({ message: 'You do not have permission' });
+    return;
+  }
+
+  next();
+};
+
